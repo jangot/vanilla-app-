@@ -12,11 +12,21 @@
         table {
             width: 100%;
         }
+        td, th {
+            border:1px black solid;
+        }
+        th {
+            cursor: pointer;
+        }
+        .sorted {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
+    <script src="./js/utils.js"></script>
     <script src="./js/state.js"></script>
     <script src="./js/actions.js"></script>
     <script src="./js/table.js"></script>

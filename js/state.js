@@ -1,5 +1,7 @@
-function initState() {
+function initState(init) {
     return {
-        clients: []
+        clients: [],
+        sortOrder: 'id',
+        ...init
     }
 }

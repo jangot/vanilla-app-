@@ -1,44 +1,67 @@
-function renderRow(state, actions) {
-    const tr = document.createElement('tr');
+function renderRow(client, actions) {
+    const tr = el('tr');
 
-    const tdId = document.createElement('td');
-    tdId.innerHTML = state.id;
+    const tdId = el('td', client.id);
     tr.append(tdId);
 
-    const tdName = document.createElement('td');
-    tdName.innerHTML = state.name;
+    const tdName = el('td', client.name);
     tr.append(tdName);
+
+    const removeTd = el('td');
+    const button = el('button', 'Remove');
+    removeTd.append(button);
+    tr.append(removeTd);
+    button.addEventListener('click', () => {
+        actions.removeClient(client.id)
+    });
 
     return tr;
 }
 
-function renderHeaders() {
-    const tr = document.createElement('tr');
-    const first = document.createElement('th');
-    first.innerHTML = 'id';
-    tr.append(first);
+function renderHeaders(state, actions) {
+    const tr = el('tr');
+    const idTh = el('th', 'id');
+    tr.append(idTh);
+    idTh.addEventListener('click', () => {
+        actions.sortClients('id');
+    });
 
-    const second = document.createElement('th');
-    second.innerHTML = 'name';
-    tr.append(second);
+    const nameTh = el('th', 'name');
+    tr.append(nameTh);
+    nameTh.addEventListener('click', () => {
+        actions.sortClients('name');
+    });
+
+    const actionTh = el('th', 'action');
+    tr.append(actionTh);
+
+    switch (state.sortOrder) {
+        case 'id':
+            idTh.classList.add('sorted');
+            break;
+        case 'name':
+            nameTh.classList.add('sorted');
+            break;
+    }
 
     return tr;
 }
 
 function renderButton(state, actions) {
-    const tr = document.createElement('tr');
+    const tr = el('tr');
 
-    const tdId = document.createElement('td');
+    tr.append(el('td'));
+
+    const tdId = el('td');
     tr.append(tdId);
 
-    const input = document.createElement('input');
+    const input = el('input');
     tdId.append(input);
 
-    const tdName = document.createElement('td');
+    const tdName = el('td');
     tr.append(tdName);
 
-    const button = document.createElement('button');
-    button.innerHTML = 'add';
+    const button = el('button', 'add');
     tdName.append(button);
     button.addEventListener('click', () => {
         actions.addClient(input.value);
@@ -48,12 +71,15 @@ function renderButton(state, actions) {
 }
 
 function renderTable(state, actions) {
-    const table = document.createElement('table');
+    const table = el('table');
 
-    table.append(renderHeaders());
+    table.append(renderHeaders(state, actions));
+
+    const tbody = el('tbody');
+    table.append(tbody);
 
     state.clients.forEach((client) => {
-        table.append(renderRow(client, actions));
+        tbody.append(renderRow(client, actions));
     });
 
     table.append(renderButton(state, actions));
