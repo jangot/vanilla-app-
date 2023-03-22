@@ -3,6 +3,7 @@ function renderApplication(state, actions) {
     app.classList.add('app');
 
     app.append(renderTable(state, actions));
+    app.append(renderStatistic(state, actions));
 
    return app
 }
